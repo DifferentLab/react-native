@@ -73,7 +73,9 @@ class KeyboardAvoidingView extends React.Component<Props, State> {
 
   _relativeKeyboardHeight(keyboardFrame: KeyboardEventCoordinates): number {
     const frame = this._frame;
-    if (!frame || !keyboardFrame) {
+    // with iOS 14 & Reduce Motion > Prefer Cross-Fade Transitions enabled, the keyboard position
+    // & height is reported differently (0 instead of Y position value matching height of frame)
+    if (!frame || !keyboardFrame || keyboardFrame.screenY === 0) {
       return 0;
     }
 
